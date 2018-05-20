@@ -1,14 +1,17 @@
-import qualified Data.Map -- as M (can be shortened)
+import qualified Data.Map as M
 import Data.Maybe
 import System.Environment
 import System.IO
 import Prelude hiding (Word)
 
-data Trie = Trie {end :: Bool, children :: Map Char Trie}
+data Trie = Trie {end :: Bool, children :: M.Map Char Trie}
 type Word = String
 
+main = do
+	putStrLn "FP Term Project"
+
 empty :: Trie
-empty = undefined
+empty = Trie {end = False , children = M.empty}
 
 insert :: Word -> Trie -> Trie
 insert = undefined
