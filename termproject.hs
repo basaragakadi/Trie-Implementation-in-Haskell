@@ -7,8 +7,7 @@ import Prelude hiding (Word)
 data Trie = Trie {end :: Bool, children :: M.Map Char Trie}
 type Word = String
 
-main = do
-	putStrLn "FP Term Project"
+main = undefined
 
 empty :: Trie
 empty = Trie {end = False , children = M.empty}
@@ -27,3 +26,16 @@ getWords = undefined
 
 prefix :: Word -> Trie -> Maybe [Word]
 prefix = undefined
+
+--printActions :: IO ()
+--printActions = putStrLn "a) Add word\ns) Search word\nf) Find words with prefix\np) Print all words\ne) Exit\nEnter an action:"
+
+--waitForAction :: IO () String
+--waitForAction = do
+--	l <- getLine
+--	return (read l :: String)
+
+--executeAction :: String -> IO ()
+--executeAction input
+--	| input == "a" = putStrLn input
+--	| otherwise = putStrLn "default"
