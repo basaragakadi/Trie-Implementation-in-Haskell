@@ -6,6 +6,7 @@ import Prelude hiding (Word)
 
 data Trie = Trie {end :: Bool, children :: M.Map Char Trie}
 type Word = String
+data Action = Add | Search | Find | Print | Exit
 
 main = undefined
 
@@ -26,6 +27,22 @@ getWords = undefined
 
 prefix :: Word -> Trie -> Maybe [Word]
 prefix = undefined
+
+-- Necessary functions
+
+getInput :: IO ()
+getInput = undefined
+
+convertAction :: String -> Action
+convertAction = undefined
+
+doAction :: Action
+doAction = undefined
+
+
+
+
+
 
 --printActions :: IO ()
 --printActions = putStrLn "a) Add word\ns) Search word\nf) Find words with prefix\np) Print all words\ne) Exit\nEnter an action:"
