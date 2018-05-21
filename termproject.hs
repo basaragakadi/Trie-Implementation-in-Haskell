@@ -20,7 +20,7 @@ empty = Trie {end = False , children = M.empty}
 
 insert :: Word -> Trie -> Trie
 insert [] 		t	= 	let ts = children t
-						in case M.null ts of
+						in case isListNull $ M.toList ts of
 							True	-> t {end = True , children = M.empty}
 							False	-> t {end = True , children = ts}				
 insert (x:xs) 	t 	= 	let ts = children t
@@ -108,6 +108,14 @@ exit = do
 	-- TODO: Terminate program here.
 
 -- ** Action related function implementations. **
+
+-- ** Null function to check whether the map is null or not. **
+
+isListNull :: [(Char, Trie)] -> Bool
+isListNull [] = True
+isListNull _  = False
+
+-- ** Null function to check whether the map is null or not. **
 
 
 
