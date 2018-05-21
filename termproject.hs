@@ -20,7 +20,10 @@ empty :: Trie
 empty = Trie {end = False , children = M.empty}
 
 insert :: Word -> Trie -> Trie
-insert = undefined
+insert x t = case x of
+	[] 		-> t 													-- This line is not going to finish the recursion, it is only for empty input case.
+	[x1]	-> addCharToTrie x1 t True								-- True means char 'x1' is the last element of the string.
+	x:xs 	-> insert xs $ addCharToTrie x t False					-- False means char 'x' is not the last element of the string.
 
 insertList :: [Word] -> Trie
 insertList = undefined
@@ -98,6 +101,14 @@ exit = do
 	-- TODO: Terminate program here.
 
 -- ** Action related function implementations. **
+
+
+-- ** Function to add char to the trie. **
+
+addCharToTrie :: Char -> Trie -> Bool -> Trie 					-- This function takes 3 parameters. A Char to add to the trie, a Trie to add a Char to and a Bool that
+addCharToTrie = undefined 										-- indicates that char is the last character of the word or not.
+
+-- ** Function to add char to the trie. **
 
 
 
