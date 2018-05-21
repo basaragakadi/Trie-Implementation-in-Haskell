@@ -12,9 +12,7 @@ data Action = Add | Search | Find | Print | Exit | Err
 			deriving (Eq, Show)
 
 main = do
-	printActions
-	act <- getLine
-	doAction $ convertAction act
+	getInput
 
 empty :: Trie
 empty = Trie {end = False , children = M.empty}
@@ -43,7 +41,10 @@ printActions :: IO ()
 printActions = putStrLn "a) Add word\ns) Search word\nf) Find words with prefix\np) Print all words\ne) Exit\nEnter an action:"
 
 getInput :: IO ()
-getInput = undefined
+getInput = do 
+	printActions
+	act <- getLine
+	doAction $ convertAction act
 
 convertAction :: String -> Action
 convertAction str
