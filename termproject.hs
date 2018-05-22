@@ -48,9 +48,9 @@ getWords :: Trie -> [Word]
 getWords trie = undefined
 
 prefix :: Word -> Trie -> Maybe [Word]
-prefix w trie = case filter (isPrefixOf w) (getWords trie) of
+prefix w trie = case filter (isPrefixOf w) $ getWords trie of
 	[]	 	-> Nothing
-	(x:xs)	-> Just $ filter (isPrefixOf w) (getWords trie) 
+	(x:xs)	-> Just $ filter (isPrefixOf w) $ getWords trie 
 
 
 -- ** Necessary functions for Action handling. **
