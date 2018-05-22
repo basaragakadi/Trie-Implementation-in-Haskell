@@ -15,7 +15,6 @@ data Action = Add | Search | Find | Print | Exit | Err
 
 main = do
 	args <- getArgs
-	putStrLn $ head args
 	file <- readFile $ head args
 	let trie = insertList $ lines file
 	getInput trie
@@ -131,14 +130,4 @@ isStringNull [] = True
 isStringNull _  = False
 
 -- ** Null functions to check whether the lists are empty or not. **
-
--- ** File reading functions. **
-
--- ** File reading functions. **
-
-
-
-
-
-
 
