@@ -30,7 +30,8 @@ insert (x:xs) 	t 	= 	let ts = children t
 							Just t' ->	t {end = (end t) , children = M.insert x (insert xs $ t') ts}
 
 insertList :: [Word] -> Trie
-insertList = undefined
+insertList []	= empty
+insertList (x:xs) = insert x $ insertList xs
 
 search :: Word -> Trie -> Bool
 search = undefined
