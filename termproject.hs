@@ -2,6 +2,7 @@ import qualified Data.Map as M
 import Data.Maybe
 import System.Environment
 import System.IO
+import System.Exit
 import Prelude hiding (Word)
 
 data Trie = Trie {end :: Bool, children :: M.Map Char Trie}
@@ -34,7 +35,7 @@ insertList []	= empty
 insertList (x:xs) = insert x $ insertList xs
 
 search :: Word -> Trie -> Bool
-search [] _ 				= 	False							-- Searching for an empty string
+search [] _ 				= 	False																-- Searching for an empty string
 search (x:xs)	trie		= 	let m = children trie
 								in case M.lookup x m of
 									Nothing -> False
@@ -111,10 +112,10 @@ printFunction trie = do
 exit :: Trie -> IO Trie
 exit trie = do
 	putStrLn "Program terminated."
-	return trie
-	-- TODO: Terminate program here.
+	return exitSuccess trie
 
 -- ** Action related function implementations. **
+
 
 -- ** Null functions to check whether the lists are empty or not. **
 
