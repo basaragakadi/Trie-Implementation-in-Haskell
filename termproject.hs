@@ -34,7 +34,11 @@ insertList []	= empty
 insertList (x:xs) = insert x $ insertList xs
 
 search :: Word -> Trie -> Bool
-search = undefined
+search [] _ 				= 	False							-- Searching for an empty string
+search (x:xs)	trie		= 	let m = children trie
+								in case M.lookup x m of
+									Nothing -> False
+									Just t' -> if (isStringNull xs) then end t' else (search xs t')
 
 getWords :: Trie -> [Word]
 getWords = undefined
@@ -63,8 +67,8 @@ convertAction str
 	| str == "e" = Exit
 	| otherwise  = Err
 
-doAction :: Action -> Trie -> IO Trie
-doAction Add trie = addFunction trie
+doAction :: Action -> Trie -> IO Trie 							-- This function's return type is IO Trie, because it must always return the trie in order to operate on
+doAction Add trie = addFunction trie 							-- the same trie.
 doAction Search trie = searchFunction trie
 doAction Find trie = findFunction trie
 doAction Print trie = printFunction trie
@@ -88,7 +92,7 @@ searchFunction :: Trie -> IO Trie
 searchFunction trie = do
 	putStrLn "Enter word/prefix:"
 	line <- getLine
-	putStrLn "Search function result will be displayed here."
+	if (search line trie) then putStrLn "Exists in dictionary!" else putStrLn "Doesn't exist!"
 	return trie
 
 findFunction :: Trie -> IO Trie
@@ -112,13 +116,17 @@ exit trie = do
 
 -- ** Action related function implementations. **
 
--- ** Null function to check whether the map is null or not. **
+-- ** Null functions to check whether the lists are empty or not. **
 
 isListNull :: [(Char, Trie)] -> Bool
 isListNull [] = True
 isListNull _  = False
 
--- ** Null function to check whether the map is null or not. **
+isStringNull :: [Char] -> Bool
+isStringNull [] = True
+isStringNull _  = False
+
+-- ** Null functions to check whether the lists are empty or not. **
 
 
 
