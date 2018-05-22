@@ -45,7 +45,16 @@ search (x:xs)	trie		= 	let m = children trie
 									Just t' -> if (isStringNull xs) then end t' else (search xs t')
 
 getWords :: Trie -> [Word]
-getWords trie = undefined
+-- getWords _ = undefined
+getWords trie = getWords' "" trie
+	where
+		getWords' :: String -> Trie -> [Word]
+		getWords' string trie = 
+			foldl (\ lst (char, t) -> 
+				if end t
+					then lst ++ [string ++ [char]] ++ (getWords' (string ++ [char]) t)
+					else lst ++ (getWords' (string ++ [char]) t)
+			) [] (M.toList $ children trie)
 
 prefix :: Word -> Trie -> Maybe [Word]
 prefix w trie = case filter (isPrefixOf w) $ getWords trie of
@@ -106,8 +115,14 @@ findFunction :: Trie -> IO Trie
 findFunction trie  = do
 	putStrLn "Enter word/prefix:"
 	line <- getLine
-	putStrLn "Find function result will be displayed here."
-	return trie
+	case prefix line trie of
+		Nothing -> do
+			putStrLn "No words with that prefix!"
+			return trie
+		Just ls -> do
+			putStrLn "Found words:"
+			putStrLn $ unlines ls
+			return trie
 
 printFunction :: Trie -> IO Trie
 printFunction trie = do
@@ -134,4 +149,3 @@ isStringNull [] = True
 isStringNull _  = False
 
 -- ** Null functions to check whether the lists are empty or not. **
-
