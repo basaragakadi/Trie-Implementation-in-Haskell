@@ -3,6 +3,7 @@ import Data.Maybe
 import System.Environment
 import System.IO
 import System.Exit
+import Data.List hiding (insert)
 import Prelude hiding (Word)
 
 data Trie = Trie {end :: Bool, children :: M.Map Char Trie}
@@ -44,10 +45,13 @@ search (x:xs)	trie		= 	let m = children trie
 									Just t' -> if (isStringNull xs) then end t' else (search xs t')
 
 getWords :: Trie -> [Word]
-getWords = undefined
+getWords trie = undefined
 
 prefix :: Word -> Trie -> Maybe [Word]
-prefix = undefined
+prefix w trie = case filter (isPrefixOf w) (getWords trie) of
+	[]	 	-> Nothing
+	(x:xs)	-> Just $ filter (isPrefixOf w) (getWords trie) 
+
 
 -- ** Necessary functions for Action handling. **
 
@@ -108,7 +112,7 @@ findFunction trie  = do
 printFunction :: Trie -> IO Trie
 printFunction trie = do
 	putStrLn "List of words in dictionary:"
-	putStrLn "Results\nof\nPrint\nFunction\nwill\nbe\ndisplayed\nhere."
+	putStrLn $ unlines $ getWords trie
 	return trie
 
 exit :: Trie -> IO Trie
