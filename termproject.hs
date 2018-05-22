@@ -13,7 +13,8 @@ data Action = Add | Search | Find | Print | Exit | Err
 			deriving (Eq, Show)
 
 main = do
-	getInput
+	let trie = empty
+	getInput trie
 
 empty :: Trie
 empty = Trie {end = False , children = M.empty}
@@ -45,12 +46,12 @@ prefix = undefined
 printActions :: IO ()
 printActions = putStrLn "a) Add word\ns) Search word\nf) Find words with prefix\np) Print all words\ne) Exit\nEnter an action:"
 
-getInput :: IO ()
-getInput = do 
+getInput :: Trie -> IO Trie
+getInput trie = do 
 	printActions
 	act <- getLine
-	doAction $ convertAction act
-	getInput
+	newTrie <- doAction (convertAction act) trie
+	getInput newTrie
 
 convertAction :: String -> Action
 convertAction str
@@ -61,50 +62,51 @@ convertAction str
 	| str == "e" = Exit
 	| otherwise  = Err
 
-doAction :: Action -> IO ()
-doAction action
-	| action == Err = printErr
-	| action == Add = addFunction
-	| action == Search = searchFunction
-	| action == Find = findFunction
-	| action == Print = printFunction
-	| action == Exit = exit
-
-printErr :: IO ()
-printErr = do putStrLn "Not a valid action."
+doAction :: Action -> Trie -> IO Trie
+doAction Add trie = addFunction trie
+doAction Search trie = searchFunction trie
+doAction Find trie = findFunction trie
+doAction Print trie = printFunction trie
+doAction Exit trie = exit trie
+doAction Err trie = error "Not a valid action."
 
 -- ** Necessary functions for Action handling. **
 
 
 -- ** Action related function implementations. **
 
-addFunction :: IO ()
-addFunction = do
+addFunction :: Trie -> IO Trie
+addFunction trie = do
 	putStrLn "Enter word/prefix:"
 	line <- getLine
+	let resultTrie = insert line trie
 	putStrLn ("New word is added! -> " ++ line)
+	return resultTrie
 
-searchFunction :: IO ()
-searchFunction = do
+searchFunction :: Trie -> IO Trie
+searchFunction trie = do
 	putStrLn "Enter word/prefix:"
 	line <- getLine
-	putStrLn "Search function result will be displayed here." -- TODO: Another function related to search functionality must be implemented with guards according to the result bool of search function on top.
+	putStrLn "Search function result will be displayed here."
+	return trie
 
-findFunction :: IO ()
-findFunction = do
+findFunction :: Trie -> IO Trie
+findFunction trie  = do
 	putStrLn "Enter word/prefix:"
 	line <- getLine
-	putStrLn "Find function result will be displayed here." -- TODO: Another function related to find functionality must be implemented with guards according to the result of prefix function on top.
+	putStrLn "Find function result will be displayed here."
+	return trie
 
-printFunction :: IO ()
-printFunction = do
+printFunction :: Trie -> IO Trie
+printFunction trie = do
 	putStrLn "List of words in dictionary:"
-	-- TODO: Write another function that lists and prints all words in dictionary here.
 	putStrLn "Results\nof\nPrint\nFunction\nwill\nbe\ndisplayed\nhere."
+	return trie
 
-exit :: IO ()
-exit = do
+exit :: Trie -> IO Trie
+exit trie = do
 	putStrLn "Program terminated."
+	return trie
 	-- TODO: Terminate program here.
 
 -- ** Action related function implementations. **
